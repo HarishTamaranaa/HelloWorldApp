@@ -40,13 +40,13 @@ jobs:
 
       run: |
 
-        echo "${{ secrets.AZURE_CREDENTIALS }}" | docker login demohelloworldregistry.azurecr.io -u ${{ secrets.AZURE_USERNAME }} --password-stdin
+        echo "${{ secrets.AZURE_PASSWORD }}" | docker login demohelloworldregistry.azurecr.io -u ${{ secrets.AZURE_CLIENTID }} --password-stdin
 
     - name: Tag and Push Docker image
 
       run: |
 
-        docker tag demohellworldapp demohelloworldregistry.azurecr.io/demohelloworldapp:${{ github.sha }}
+        docker tag demohelloworldapp demohelloworldregistry.azurecr.io/demohelloworldapp:${{ github.sha }}
 
         docker push demohelloworldregistry.azurecr.io/demohelloworldapp:${{ github.sha }}
 
