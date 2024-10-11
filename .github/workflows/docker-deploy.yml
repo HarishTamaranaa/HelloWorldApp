@@ -77,6 +77,5 @@ jobs:
           --resource-group demoGroup \   # Check if this is the correct resource group
 
           --image demohelloworldregistry.azurecr.io/demohelloworldapp:${{ github.sha }}
-Azure Container Registry | Microsoft Azure
-Store images for all types of container deployments and OCI artifacts, using Azure Container Registry.
+
  
