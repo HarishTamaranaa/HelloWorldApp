@@ -1,86 +1,75 @@
 name: CI/CD Workflow
-
+ 
 on:
-
+ 
   push:
-
+ 
     branches:
-
+ 
       - main
-
+ 
 jobs:
-
+ 
   build:
-
+ 
     runs-on: ubuntu-latest
-
+ 
     steps:
-
+ 
     - name: Checkout Code
-
+ 
       uses: actions/checkout@v3
-
+ 
     - name: Set up .NET
-
+ 
       uses: actions/setup-dotnet@v3
-
+ 
       with:
-
+ 
         dotnet-version: '7.0.x'
-
+ 
     - name: Build .NET project
-
+ 
       run: dotnet build
-
+ 
     - name: Build Docker image
-
+ 
       run: docker build -t demohelloworldapp .
-
+ 
     - name: Log in to Azure Container Registry
-
+ 
       run: |
-
+ 
         echo "${{ secrets.AZURE_CLIENT_SECRET }}" | docker login demohelloworldregistry.azurecr.io -u ${{ secrets.AZURE_CLIENT_ID }} --password-stdin
-
+ 
     - name: Tag and Push Docker image
-
+ 
       run: |
-
+ 
         docker tag demohelloworldapp demohelloworldregistry.azurecr.io/demohelloworldapp:${{ github.sha }}
-
+ 
         docker push demohelloworldregistry.azurecr.io/demohelloworldapp:${{ github.sha }}
-
+ 
   deploy:
-
+ 
     runs-on: ubuntu-latest
-
+ 
     needs: build
-
+ 
     steps:
-
+ 
     - name: Deploy to Azure Container Apps
-
+ 
       uses: azure/CLI@v2
-
+ 
       with:
-
+ 
         inlineScript: |
-
+ 
           az login --service-principal -u ${{ secrets.AZURE_CLIENT_ID }} -p ${{ secrets.AZURE_CLIENT_SECRET }} --tenant ${{ secrets.AZURE_TENANT_ID }}
+ 
+          az containerapp update --name demoapp --resource-group demoGroup --image demohelloworldregistry.azurecr.io/demohelloworldapp:${{ github.sha }}  
+ 
 
-          # Replace <env-name> with your Azure Container App environment name
 
-          az containerapp create \
-
-            --name hellworldcheck \
-
-            --resource-group demoGroup \
-
-            --image demohelloworldregistry.azurecr.io/demohelloworldapp:${{ github.sha }} \
-
-            --environment <env-name> \
-
-            --target-port 8080 \
-
-            --ingress 'external'
  
