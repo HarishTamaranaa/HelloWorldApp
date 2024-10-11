@@ -1,30 +1,34 @@
-# Use the official .NET SDK image to build the app
+# Use the official Microsoft .NET 7.0 SDK image to build the application
 
-FROM mcr.microsoft.com/dotnet/sdk:7.0 AS build
+FROM mcr.microsoft.com/dotnet/sdk:7.0 AS build-env
 
 WORKDIR /app
 
-# Copy the project files and restore any dependencies
+# Copy the csproj and restore any dependencies (via 'dotnet restore')
 
 COPY *.csproj ./
 
 RUN dotnet restore
 
-# Copy the rest of the application and build it
+# Copy the rest of the application code and build the project
 
 COPY . ./
 
 RUN dotnet publish -c Release -o out
 
-# Use the official ASP.NET runtime image to run the app
+# Use a runtime image for production. This is much smaller than the SDK image.
 
-FROM mcr.microsoft.com/dotnet/aspnet:7.0 AS runtime
+FROM mcr.microsoft.com/dotnet/aspnet:7.0
 
 WORKDIR /app
 
-COPY --from=build /app/out .
+COPY --from=build-env /app/out .
 
-# Set the entry point for the container
+# Expose port 8080 (or your application's port)
 
-ENTRYPOINT ["dotnet", "DemoHelloWorld.dll"]
+EXPOSE 8080
+
+# Set the entry point to run the application
+
+ENTRYPOINT ["dotnet", "YourProjectName.dll"]
  
