@@ -5,7 +5,7 @@ namespace DemoHelloWorld
     {
         static void Main(string[] args)
         {
-            Console.WriteLine("Hello World from docker!");
+            Console.WriteLine("Hello World from docker hehe!");
         }
     }
 
