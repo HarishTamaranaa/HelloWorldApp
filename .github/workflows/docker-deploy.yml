@@ -58,24 +58,16 @@ jobs:
 
     steps:
 
-    - name: Azure Login
+    - name: Deploy to Azure Container Apps
 
-      uses: azure/login@v1
+      uses: azure/CLI@v2
 
       with:
 
-        creds: ${{ secrets.AZURE_CREDENTIALS }}
+        inlineScript: |
 
-    - name: Deploy to Azure Container Apps
+          az login --service-principal -u ${{ secrets.AZURE_CLIENT_ID }} -p ${{ secrets.AZURE_CLIENT_SECRET }} --tenant ${{ secrets.AZURE_TENANT_ID }}
 
-      run: |
-
-        az containerapp update \
-
-          --name demoapp \   # Check if this is the correct name of your container app
-
-          --resource-group demoGroup \   # Check if this is the correct resource group
-
-          --image demohelloworldregistry.azurecr.io/demohelloworldapp:${{ github.sha }}
+          az containerapp update --name demoapp --resource-group demoGroup --image demohelloworldregistry.azurecr.io/demohelloworldapp:${{ github.sha }}
 
  
