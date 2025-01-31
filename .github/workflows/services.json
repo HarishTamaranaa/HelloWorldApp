@@ -1,6 +1,20 @@
 {
     "services": [
-      { "service_name": "asset-management-api", "env_file_path": ".env","display-name":"as", "apim-service-name":"as","swagger-url":"as","path":"as"},
-      { "service_name": "customer-management-api", "env_file_path": ".env","display-name":"as", "apim-service-name":"as","swagger-url":"as","path":"as"}
+      {
+        "service_name": "asset-management-api",
+        "env_file_path": ".env",
+        "display_name": "Asset Management API",
+        "apim_service_name": "apim-asset",
+        "swagger_url": "https://api.example.com/asset/swagger",
+        "path": "/asset"
+      },
+      {
+        "service_name": "customer-management-api",
+        "env_file_path": ".env",
+        "display_name": "Customer Management API",
+        "apim_service_name": "apim-customer",
+        "swagger_url": "https://api.example.com/customer/swagger",
+        "path": "/customer"
+      }
     ]
   } 
