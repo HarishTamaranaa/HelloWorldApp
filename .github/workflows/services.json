@@ -1,11 +1,6 @@
 {
-
-  "services": [
-
-    { "name": "service-a", "env": "dev" },
-
-    { "name": "service-b", "env": "staging" }
-
-  ]
-
-} 
+    "services": [
+      { "service_name": "asset-management-api", "env_file_path": ".env","display-name":"", "apim-service-name":"","swagger-url":"","path":""},
+      { "service_name": "customer-management-api", "env_file_path": ".env","display-name":"", "apim-service-name":"","swagger-url":"","path":""}
+    ]
+  } 
