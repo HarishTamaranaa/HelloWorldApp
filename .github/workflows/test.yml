@@ -26,15 +26,14 @@ jobs:
       - name: Loop Through Services
         run: |
           echo '${{ needs.read_json_file.outputs.parsed_services }}' | jq -c '.[]' | while read service; do
-            
             SERVICE_NAME=$(echo $service | jq -r '.service_name')
             ENV_FILE_PATH=$(echo $service | jq -r '.env_file_path')
-            DISPLAY_NAME=$(echo $service | jq -r '.display-name')
-            APIM_SERVICE_NAME=$(echo $service | jq -r '.apim-service-name')
-            SWAGGER_URL=$(echo $service | jq -r '.swagger-url')
+            DISPLAY_NAME=$(echo $service | jq -r '.display_name')
+            APIM_SERVICE_NAME=$(echo $service | jq -r '.apim_service_name')
+            SWAGGER_URL=$(echo $service | jq -r '.swagger_url')
             echo "Service Name $SERVICE_NAME"
-            echo "Environment $ENV_FILE_PATH"
+            echo "Environment File Path $ENV_FILE_PATH"
             echo "Display Name $DISPLAY_NAME"
-            echo "APIM SERVICE NAME: $APIM_SERVICE_NAME"
-            echo "Swagger url $SWAGGER_URL"
+            echo "APIM Service Name $APIM_SERVICE_NAME"
+            echo "Swagger URL $SWAGGER_URL"
           done 
