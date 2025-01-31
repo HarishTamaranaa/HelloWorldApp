@@ -23,11 +23,11 @@ jobs:
         run: echo 'data ${{inputs.microservices}}'
       - name: Parse Json Input
         id: parse-json
-        run: echo "SERVICES=${echo '${{github.event.inputs.services}}' | jq -c .)">>$GITHUB_ENV
+        run: echo "SERVICES=$(echo '${{github.event.inputs.services}}' | jq -c .)">>$GITHUB_ENV
       - name: Deploy Services
         run: |
           echo "Deploying Service: $SERVICES"
-          for SERVICE IN "$SERVICES" | jq -r '.[]'); do
+          for SERVICE IN $(echo "$SERVICES" | jq -r '.[]'); do
             echo "Deploying Service $SERVICE"
           done
           
