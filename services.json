@@ -1,0 +1,11 @@
+{
+
+  "services": [
+
+    { "name": "service-a", "env": "dev" },
+
+    { "name": "service-b", "env": "staging" }
+
+  ]
+
+} 
