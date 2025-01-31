@@ -39,5 +39,5 @@ jobs:
        matrix:
          service: ${{ fromJson(needs.microservice_check.outputs.services_json)}}
      steps:
-       name: show service name
-       run: echo "service ${{matrix.service}}
+       - name: show service name
+         run: echo "service ${{matrix.service}}
