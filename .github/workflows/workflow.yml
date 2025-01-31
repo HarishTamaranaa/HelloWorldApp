@@ -22,8 +22,7 @@ jobs:
         shell: bash
         run: echo 'data ${{inputs.microservices}}'
       - name: Parse Json Input
-        id: parse-json
-        run: echo "SERVICES=$(echo '${{github.event.inputs.microservices_as_json}}' | jq -c .)">>$GITHUB_ENV
+        run: echo "SERVICES=$(echo '${{inputs.microservices_as_json}}' | jq -c .)">>$GITHUB_ENV
       - name: Deploy Services
         run: |
           echo "Deploying Service: $SERVICES"
