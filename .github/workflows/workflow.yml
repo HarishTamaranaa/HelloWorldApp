@@ -7,37 +7,33 @@ on:
         required: true
         options:
           - asset-management-api
-          - cusotmer-management-api
+          - customer-management-api
           - site-management-api
       microservices_as_json:
         type: string
         required: true
-        description: 'Enter services as json array (e.g., ["service-a","service-b"])'
-
+        description: 'Enter services as JSON array (e.g., ["service-a","service-b"])'
 jobs:
   microservice_check:
     runs-on: ubuntu-latest
     outputs:
-      services_json: ${{steps.set-matrix.outputs.SERVICES}}
+      services_json: ${{ steps.set-matrix.outputs.services_json }}
     steps:
       - name: Check microservice input var
         shell: bash
-        run: echo 'data ${{inputs.microservices}}'
-      - name: Parse Json Input
+        run: echo "Selected microservice ${{inputs.microservices}}"
+      - name: Parse JSON Input
         id: set-matrix
-        run: echo "SERVICES=$(echo ${{inputs.microservices_as_json}} | jq -c .)">>$GITHUB_OUTPUT
-      - name: Deploy Services
         run: |
-          echo "Deploying Service: ${{steps.set-matrix.outputs.SERVICES}}"
-          for SERVICE in $(echo "$SERVICES" | jq -r '.[]'); do
-            echo "Deploying Service $SERVICE"
-          done
+          echo "Processing input JSON: ${{ github.event.inputs.microservices_as_json }}"
+          SERVICES_JSON=$(echo '${{ github.event.inputs.microservices_as_json }}' | jq -c .)
+          echo "services_json=$SERVICES_JSON" >> $GITHUB_OUTPUT
   run_services:
-     needs: microservice_check
-     runs-on: ubuntu-latest
-     strategy:
-       matrix:
-         service: ${{ needs.microservice_check.outputs.services_json }}
-     steps:
-       - name: show service name
-         run: echo "service ${{matrix.service}}
+    needs: microservice_check
+    runs-on: ubuntu-latest
+    strategy:
+      matrix:
+        service: ${{ fromJson(needs.microservice_check.outputs.services_json) }}
+    steps:
+      - name: Show service name
+        run: echo "Deploying service ${{ matrix.service }}" 
