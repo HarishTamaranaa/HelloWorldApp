@@ -46,7 +46,7 @@ jobs:
 
       - name: Show Extracted Services
 
-        run: echo "Services JSON: ${{ needs.read_json_file.outputs.parsed_services }}"
+        run: echo "Services JSON ${{ needs.read_json_file.outputs.parsed_services }}"
 
       - name: Loop Through Services
 
