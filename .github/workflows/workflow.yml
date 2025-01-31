@@ -17,11 +17,14 @@ on:
 jobs:
   microservice_check:
     runs-on: ubuntu-latest
+    outputs:
+      services_json: ${{steps.set-matrix.outputs.SERVICES"}}
     steps:
       - name: Check microservice input var
         shell: bash
         run: echo 'data ${{inputs.microservices}}'
       - name: Parse Json Input
+        id: set-matrix
         run: echo "SERVICES=$(echo '${{inputs.microservices_as_json}}' | jq -c .)">>$GITHUB_ENV
       - name: Deploy Services
         run: |
@@ -29,4 +32,12 @@ jobs:
           for SERVICE in $(echo "$SERVICES" | jq -r '.[]'); do
             echo "Deploying Service $SERVICE"
           done
-          
+  run_services:
+     needs: microservice_check
+     runs-on: ubuntu-latest
+     strategy:
+       matrix:
+         service: ${{ fromJson(needs.microservice_check.outputs.services_json)}}
+     steps:
+       name: show service name
+       run: echo "service ${{matrix.service}}
