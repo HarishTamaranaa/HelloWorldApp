@@ -1,65 +1,40 @@
-name: Read JSON File Workflow
-
+name: Centralized Deployment Orchestration
 on:
-
   workflow_dispatch:
-
 jobs:
-
   read_json_file:
-
     runs-on: ubuntu-latest
-
     outputs:
-
       parsed_services: ${{ steps.parse_json.outputs.services }}
-
     steps:
-
       - name: Checkout Repository
-
         uses: actions/checkout@v4
-
       - name: Read JSON File
-
         id: parse_json
-
         run: |
-
           JSON_INPUT=$(cat .github/workflows/services.json)
-
           echo "JSON Input: $JSON_INPUT"
-
           SERVICES=$(echo "$JSON_INPUT" | jq -c '.services')
-
           echo "Extracted Services: $SERVICES"
-
           echo "services=$SERVICES" >> $GITHUB_OUTPUT
-
   process_services:
-
     needs: read_json_file
-
     runs-on: ubuntu-latest
-
     steps:
-
       - name: Show Extracted Services
-
         run: echo "Services JSON ${{ needs.read_json_file.outputs.parsed_services }}"
-
       - name: Loop Through Services
-
         run: |
-
           echo '${{ needs.read_json_file.outputs.parsed_services }}' | jq -c '.[]' | while read service; do
-
-            NAME=$(echo $service | jq -r '.name')
-
-            ENV=$(echo $service | jq -r '.env')
-
-            echo "Service Name: $NAME"
-
-            echo "Environment: $ENV"
-
+            
+            SERVICE_NAME=$(echo $service | jq -r '.service_name')
+            ENV_FILE_PATH=$(echo $service | jq -r '.env_file_path')
+            DISPLAY_NAME=$(echo $service | jq -r '.display-name')
+            APIM_SERVICE_NAME=$(echo $service | jq -r '.apim-service-name')
+            SWAGGER_URL=$(echo $service | jq -r '.swagger-url')
+            echo "Service Name $SERVICE_NAME"
+            echo "Environment $ENV_FILE_PATH"
+            echo "Display Name $DISPLAY_NAME"
+            echo "APIM SERVICE NAME: $APIM_SERVICE_NAME"
+            echo "Swagger url $SWAGGER_URL"
           done 
