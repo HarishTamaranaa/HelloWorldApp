@@ -26,7 +26,7 @@ jobs:
 
         run: |
 
-          JSON_INPUT=$(cat services.json)
+          JSON_INPUT=$(cat .github/workflows/services.json)
 
           echo "JSON Input: $JSON_INPUT"
 
