@@ -1,18 +1,19 @@
-name: Workflow to test 
+name: Workflow To Test
 on:
- workflow_dispatch
-   inputs: 
-     microservices:
-         type: choice
-         required: true
-         options:
-         - asset-management-api
-         - cusotmer-management-api
-         - site-management-api
+  workflow_dispatch:
+    inputs:
+      microservices:
+        type: choice
+        required: true
+        options:
+          - asset-management-api
+          - cusotmer-management-api
+          - site-management-api
 
 jobs:
   microservice_check:
     runs-on: ubuntu-latest
     steps:
-     - name: Check microservice input var
-       run: echo 'data : ${{inputs.microservices}}
+      - name: Check microservice input var
+        shell: bash
+        run: echo 'data ${{inputs.microservices}}'
