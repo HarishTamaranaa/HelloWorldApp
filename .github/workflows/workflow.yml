@@ -27,7 +27,7 @@ jobs:
       - name: Deploy Services
         run: |
           echo "Deploying Service: $SERVICES"
-          for SERVICE IN $(echo "$SERVICES" | jq -r '.[]'); do
+          for SERVICE in $(echo "$SERVICES" | jq -r '.[]'); do
             echo "Deploying Service $SERVICE"
           done
           
