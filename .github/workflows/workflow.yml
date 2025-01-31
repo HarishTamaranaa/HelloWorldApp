@@ -9,6 +9,10 @@ on:
           - asset-management-api
           - cusotmer-management-api
           - site-management-api
+      microservices_as_json:
+        type: string
+        required: true
+        description: 'Enter services as json array (e.g., ["service-a","service-b"])'
 
 jobs:
   microservice_check:
@@ -17,3 +21,13 @@ jobs:
       - name: Check microservice input var
         shell: bash
         run: echo 'data ${{inputs.microservices}}'
+      - name: Parse Json Input
+        id: parse-json
+        run: echo "SERVICES=${echo '${{github.event.inputs.services}}' | jq -c .)">>$GITHUB_ENV
+      - name: Deploy Services
+        run: |
+          echo "Deploying Service: $SERVICES"
+          for SERVICE IN "$SERVICES" | jq -r '.[]'); do
+            echo "Deploying Service $SERVICE"
+          done
+          
