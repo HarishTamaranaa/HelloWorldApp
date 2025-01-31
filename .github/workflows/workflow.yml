@@ -37,7 +37,7 @@ jobs:
      runs-on: ubuntu-latest
      strategy:
        matrix:
-         service: ${{ fromJson(needs.microservice_check.outputs.services_json)}}
+         service: ${{ needs.microservice_check.outputs.services_json }}
      steps:
        - name: show service name
          run: echo "service ${{matrix.service}}
