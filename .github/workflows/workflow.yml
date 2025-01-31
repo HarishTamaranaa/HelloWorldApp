@@ -25,7 +25,7 @@ jobs:
         run: echo 'data ${{inputs.microservices}}'
       - name: Parse Json Input
         id: set-matrix
-        run: echo "SERVICES=$(echo '${{inputs.microservices_as_json}}' | jq -c .)">>$GITHUB_OUTPUT
+        run: echo "SERVICES=$(echo ${{inputs.microservices_as_json}} | jq -c .)">>$GITHUB_OUTPUT
       - name: Deploy Services
         run: |
           echo "Deploying Service: ${{steps.set-matrix.outputs.SERVICES}}"
