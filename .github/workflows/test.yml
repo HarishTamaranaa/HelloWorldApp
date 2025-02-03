@@ -36,7 +36,7 @@ jobs:
             APIM_SERVICE_NAME=$(echo $service | jq -r '.apim_service_name')
             echo "Checking out to $SERVICE_NAME to fetch .env file..."
             echo "platform name $PLATFORM_NAME"
-            REPO_URL=https://github.schneider-electric.com/$PLATFORM_NAME/$SERVICE_NAME.git
+            REPO_URL=https://github.schneider-electric.com/${{ github.event.repository.owner.login }}/$SERVICE_NAME.git
             echo "url $REPO_URL"
             git clone --branch main $REPO_URL
             SWAGGER_URL=$(echo $service | jq -r '.swagger_url')
