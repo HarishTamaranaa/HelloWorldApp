@@ -33,7 +33,8 @@ jobs:
             DISPLAY_NAME=$(echo $service | jq -r '.display_name')
             APIM_SERVICE_NAME=$(echo $service | jq -r '.apim_service_name')
             echo "Checking out to $SERVICE_NAME to fetch .env file..."
-            GITHUB_PLATFORM_NAME = ${{ github.event.repository.owner.login }}
+            PLATFORM_NAME = ${{ github.event.repository.owner.login }}
+            echo "platform name $PLATFOMR_NAME"
             git clone --branch main https://github.com/$GITHUB_PLATFORM_NAME/$SERVICE_NAME
             SWAGGER_URL=$(echo $service | jq -r '.swagger_url')
             echo "service path $service.path"
