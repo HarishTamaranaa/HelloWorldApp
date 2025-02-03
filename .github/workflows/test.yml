@@ -35,7 +35,8 @@ jobs:
             echo "Checking out to $SERVICE_NAME to fetch .env file..."
             echo "PLATFORM_NAME = ${{ github.event.repository.owner.login }}">>$GITHUB_ENV
             echo "platform name $PLATFOMR_NAME"
-            git clone --branch main https://github.com/$GITHUB_PLATFORM_NAME/$SERVICE_NAME
+            echo "REPO_URL=https://github.com/$PLATFORM_NAME/$SERVICE_NAME">>$GITHUB_ENV
+            git clone --branch main $REPO_URL
             SWAGGER_URL=$(echo $service | jq -r '.swagger_url')
             echo "service path $service.path"
             echo "Service Name $SERVICE_NAME"
