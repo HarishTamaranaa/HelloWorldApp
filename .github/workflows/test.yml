@@ -9,6 +9,8 @@ jobs:
     steps:
       - name: Checkout Repository
         uses: actions/checkout@v4
+      - name: Checking owner id
+        run: echo ${{ github.event.repository.owner.login }}
       - name: Read JSON File
         id: parse_json
         run: |
