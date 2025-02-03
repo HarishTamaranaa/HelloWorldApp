@@ -33,6 +33,7 @@ jobs:
             DISPLAY_NAME=$(echo $service | jq -r '.display_name')
             APIM_SERVICE_NAME=$(echo $service | jq -r '.apim_service_name')
             SWAGGER_URL=$(echo $service | jq -r '.swagger_url')
+            echo "service $service"
             echo "Service Name $SERVICE_NAME"
             echo "Environment File Path $ENV_FILE_PATH"
             echo "Display Name $DISPLAY_NAME"
