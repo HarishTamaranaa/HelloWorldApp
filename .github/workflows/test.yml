@@ -34,7 +34,7 @@ jobs:
             APIM_SERVICE_NAME=$(echo $service | jq -r '.apim_service_name')
             echo "Checking out to $SERVICE_NAME to fetch .env file..."
             echo "PLATFORM_NAME = ${{ github.event.repository.owner.login }}">>$GITHUB_ENV
-            echo "platform name $PLATFOMR_NAME"
+            echo "platform name $PLATFORM_NAME"
             echo "REPO_URL=https://github.schneider-electric.com/$PLATFORM_NAME/$SERVICE_NAME.git">>$GITHUB_ENV
             echo "url $REPO_URL"
             git clone --branch main $REPO_URL
