@@ -25,6 +25,8 @@ jobs:
     steps:
       - name: Show Extracted Services
         run: echo "Services JSON ${{ needs.read_json_file.outputs.parsed_services }}"
+      - name: Platform name
+        run:  echo "PLATFORM_NAME=${{ github.event.repository.owner.login }}">>$GITHUB_ENV
       - name: Loop Through Services
         run: |
           echo '${{ needs.read_json_file.outputs.parsed_services }}' | jq -c '.[]' | while read service; do
@@ -33,7 +35,6 @@ jobs:
             DISPLAY_NAME=$(echo $service | jq -r '.display_name')
             APIM_SERVICE_NAME=$(echo $service | jq -r '.apim_service_name')
             echo "Checking out to $SERVICE_NAME to fetch .env file..."
-            echo "PLATFORM_NAME=${{ github.event.repository.owner.login }}">>$GITHUB_ENV
             echo "platform name $PLATFORM_NAME"
             echo "REPO_URL=https://github.schneider-electric.com/$PLATFORM_NAME/$SERVICE_NAME.git">>$GITHUB_ENV
             echo "url $REPO_URL"
