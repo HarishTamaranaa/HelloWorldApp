@@ -4,11 +4,14 @@ on:
 jobs:
   read_json_file:
     runs-on: ubuntu-latest
+    environment: dev
     outputs:
       parsed_services: ${{ steps.parse_json.outputs.services }}
     steps:
       - name: Checkout Repository
         uses: actions/checkout@v4
+      - name: Checking environment
+        run: echo "${{env.subscription}}
       - name: Checking owner id
         run: echo ${{ github.event.repository.owner.login }}
       - name: Read JSON File
